@@ -154,7 +154,6 @@ export default function Home() {
       );
 
       // Call a seperate API to get stars and forks count
-      const starsForks={};
       const requestOptionsStarsForks = {
       method: "POST",
       headers: {

@@ -85,7 +85,6 @@ def forecast():
     type = body["type"]
     repo_name = body["repo"]
     data_frame = pd.DataFrame(issues)
-    print(data_frame.head())
     df1 = data_frame.groupby([type], as_index=False).count()
     df = df1[[type, "issue_number"]]
     df.columns = ["ds", "y"]
@@ -100,7 +99,6 @@ def forecast():
     m_proph = Prophet(yearly_seasonality=True, weekly_seasonality=True)
     m_proph.fit(df)
     future = m_proph.make_future_dataframe(periods=30)
-    print(future.tail)
     m_forecast = m_proph.predict(future)
     # m_forecast["ds"] = pd.to_datetime(m_forecast["ds"])
     # pd.plotting.register_matplotlib_converters()
@@ -112,8 +110,6 @@ def forecast():
     plt.savefig(PROPHET_GENERATED_URL2)
 
     array = df.to_numpy()
-    print(array[0].shape)
-    print(array[0])
     x = np.array([time.mktime(i[0].timetuple()) for i in array])
     y = np.array([i[1] for i in array])
 
@@ -147,7 +143,6 @@ def forecast():
     train_size = int(len(Ys) * 0.80)
     test_size = len(Ys) - train_size
     train, test = Ys[0:train_size, :], Ys[train_size : len(Ys), :]
-    print("train size:", len(train), ", test size:", len(test))
 
     # Create the training and test dataset
     def create_dataset(dataset, look_back=1):
@@ -179,9 +174,6 @@ def forecast():
     model.add(Dropout(0.2))
     model.add(Dense(1))
     model.compile(loss="mean_squared_error", optimizer="adam")
-    print("LSTM X_TRAIN")
-    print(X_train.shape)
-    print(X_train[0:, :, :])
 
     # Fit the model with training data and set appropriate hyper parameters
     history = model.fit(

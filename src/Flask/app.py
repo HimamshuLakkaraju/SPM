@@ -66,7 +66,6 @@ def get_stars_forks():
     body = request.get_json()
     # Extract the choosen repositories from the request
     all_repositories = body["all_repos"]
-    print("inside function")
     token = os.environ.get("GITHUB_TOKEN", "YOUR_GITHUB_TOKEN")
     GITHUB_URL = f"https://api.github.com/"
     headers = {"Authorization": f"token {token}"}
@@ -191,8 +190,6 @@ def github():
     for key in week_issue_created_dict.keys():
         array = [str(key), week_issue_created_dict[key]]
         week_created_at_issues.append(array)
-    print("Weekly---------------------------------------------------------")
-    print(week_created_at_issues)
 
     """
     Monthly Created Issues
@@ -256,9 +253,10 @@ def github():
         "repo": repo_name.split("/")[1],
     }
 
-    # Update your Google cloud deployed LSTM app URL (NOTE: DO NOT REMOVE "/") #https://spm-assignment5-lstm-ag7sgfan6a-uc.a.run.app
-    LSTM_API_URL = "http://127.0.0.1:8080/" + "api/forecast"
-    print(LSTM_API_URL)
+    # Update your Google cloud deployed LSTM app URL (NOTE: DO NOT REMOVE "/") #https://spm-assignment5-lstm-ag7sgfan6a-uc.a.run.app, to run it in local "http://127.0.0.1:8080/"
+    LSTM_API_URL = (
+        "https://spm-assignment5-lstm-ag7sgfan6a-uc.a.run.app/" + "api/forecast"
+    )
     """
     Trigger the LSTM microservice to forecasted the created issues
     The request body consists of created issues obtained from GitHub API in JSON format
@@ -267,8 +265,6 @@ def github():
     created_at_response = requests.post(
         LSTM_API_URL, json=created_at_body, headers={"content-type": "application/json"}
     )
-    print(created_at_response)
-    print(created_at_response.content)
     """
     Trigger the LSTM microservice to forecasted the closed issues
     The request body consists of closed issues obtained from GitHub API in JSON format
